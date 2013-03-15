@@ -38,16 +38,24 @@ def serve(product_path, host, port):
         py_extension = '.py'
 
         for version in os.listdir(api_path):
-            if not os.path.isdir(version) or not version_re.match(version):
+            version_path = os.path.join(api_path, version)
+            if not os.path.isdir(version_path) or not version_re.match(version):
                 continue
 
-            for target_file_name in os.listdir(os.path.join(api_path, version)):
+            for target_file_name in os.listdir(version_path):
                 if not target_file_name.endswith(py_extension):
                     continue
 
                 target_name = target_file_name[:-len(py_extension)]
                 # TODO: Add support for nested t/a/r/g/e/t-s.
-                target_module = __import__('{product_name}.api.{version}.{target_name}'.format(**locals()), globals(), locals())
+                target_module = __import__(
+                    '{product_name}.api.{version}.{target_name}'.format(
+                        product_name=product_name,
+                        version=version,
+                        target_name=target_name,
+                    ),
+                    globals(), locals(),
+                )
 
                 for action_name in 'create', 'read', 'update', 'delete':
                     action = getattr(getattr(getattr(target_module.api, version), target_name), action_name, None)
@@ -115,7 +123,7 @@ def serve(product_path, host, port):
 
     #### gevent.serve
 
-    print('Apiphant is serving {api_path} at http://{host}:{port}/api'.format(**locals()))
+    sys.stderr.write('\nApiphant is serving {api_path} at http://{host}:{port}/api\n'.format(**locals()))
     gevent.wsgi.WSGIServer((host, port), app).serve_forever()
 
 #### main
@@ -133,10 +141,9 @@ def main():
     try:
         _, product_path, host_port = sys.argv
         last_colon_index = host_port.rindex(':') # Not split(), because IPv6 host may contain colons.
+        host, port = host_port[:last_colon_index], int(host_port[last_colon_index + 1:])
     except ValueError:
         exit(usage)
-
-    host, port = host_port[:last_colon_index], host_port[last_colon_index + 1:]
 
     #### serve
 
