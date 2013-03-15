@@ -54,12 +54,12 @@ that are recommended by [REST][]:
 [PATCH]: http://tools.ietf.org/html/rfc5789
 [HTTP/1.1]: http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
 
-* [`{"json": "object"}`][JSON] is used for both request and response,
+* [{"json": "object"}][JSON] is used for both request and response,
 to speak one language easily with any client.
-    * No [`X-Custom-HTTP: Headers`][custom HTTP headers].
-    * No [`?a=url%20encoded%20query%20string`][urlencoded querystring].
+    * No [X-Custom-HTTP: Headers][custom HTTP headers].
+    * No [?url=encoded%20query%20string][urlencoded querystring].
     * No need to check the type of root [JSON][] value,
-    it is always object with self-describing names inside,
+    it is always `object` with self-describing names inside,
     not just bare value like `42`.
 [JSON]: http://json.org/
 [custom HTTP headers]: http://www.google.com/search?q=custom+http+headers
@@ -72,9 +72,9 @@ to speak one language easily with any client.
     so may be positional parameters,
     improving readability and saving resources in a natural way.
 
-* TODO: tests.
-
-* TODO: `nginx` and `supervisor` config examples.
+TODO:
+* Automated tests.
+* `nginx` and `supervisor` config examples.
 
 apiphant version 0.1.0  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
