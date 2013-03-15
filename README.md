@@ -1,7 +1,7 @@
 Apiphant
 ========
 
-Apiphant is a Python Web API Framework.
+Simple Python Web API framework, based on Gevent, JSON, CRUD.
 
 Features:
 
@@ -22,6 +22,7 @@ Try it:
         return response
     END
 
+    sudo apt-get install --yes gcc libevent-dev python-dev
     sudo pip install apiphant
     apiphant myproduct localhost:8100
 
@@ -57,7 +58,9 @@ that are recommended by [REST][]:
 to speak one language easily with any client.
     * No [`X-Custom-HTTP: Headers`][custom HTTP headers].
     * No [`?a=url%20encoded%20query%20string`][urlencoded querystring].
-    * No need to check the type of root [JSON][] value, it is always object.
+    * No need to check the type of root [JSON][] value,
+    it is always object with self-describing names inside,
+    not just bare value like `42`.
 [JSON]: http://json.org/
 [custom HTTP headers]: http://www.google.com/search?q=custom+http+headers
 [urlencoded querystring]: http://en.wikipedia.org/wiki/Query_string#URL_encoding
@@ -69,4 +72,10 @@ to speak one language easily with any client.
     so may be positional parameters,
     improving readability and saving resources in a natural way.
 
+* TODO: tests.
+
 * TODO: `nginx` and `supervisor` config examples.
+
+apiphant version 0.1.0  
+Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
+MIT License, see http://opensource.org/licenses/MIT
