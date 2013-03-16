@@ -24,11 +24,42 @@ Try it:
 
     sudo apt-get install --yes gcc libevent-dev python-dev
     sudo pip install apiphant
-    apiphant myproduct localhost:8100
+    apiphant myproduct 127.0.0.1:8001
 
     # POST http://{host}:{port}/api/{version}/{t/a/r/g/e/t}/{action}
-    curl --data-binary '{"hello": "world"}' --request POST http://localhost:8100/api/v0/echo/read
+    curl --data-binary '{"hello": "world"}' --request POST http://127.0.0.1:8001/api/v0/echo/read
     {"hello": "world", "ok": true}
+```
+
+* Automated functional tests in Python:
+```
+    apiphant myproduct 127.0.0.1:8888
+
+    cat <<END >test.py
+    from apiphant.test import test
+    test('echo', 'read', {"hello": "world"}, 200, {"hello": "world", "ok": True})
+    END
+
+    python test.py
+    POST http://127.0.0.1:8888/api/v0/echo/read {"hello": "world"} --> 200 {'ok': True, 'hello': 'world'}
+```
+    * Please see how this shell script [test.sh][] can help to run Python tests in [test.py][].
+[test.sh]: https://github.com/denis-ryzhkov/apiphant/blob/master/tests/test.sh
+[test.py]: https://github.com/denis-ryzhkov/apiphant/blob/master/tests/test.py
+
+* Validate request fields and raise errors:
+```
+    from apiphant.validation import ApiError, field, Invalid
+
+    def read(request):
+        id = field(request, 'id', is_required=True, valid_type=int)
+        # More options: default_value, valid_value, valid_length.
+
+        item = get_item(id)
+        if not item:
+            raise Invalid('id')
+            # that is a shortcut for:
+            raise ApiError(400, 'id is Invalid')
 ```
 
 * `version` value `v0` used in the example
@@ -73,7 +104,6 @@ to speak one language easily with any client.
     improving readability and saving resources in a natural way.
 
 TODO:
-* Automated tests.
 * `nginx` and `supervisor` config examples.
 
 apiphant version 0.1.0  

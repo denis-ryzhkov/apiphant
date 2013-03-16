@@ -25,5 +25,6 @@ https://github.com/denis-ryzhkov/apiphant/blob/master/README.md
     install_requires=[
         'adict',
         'gevent',
+        'requests',
     ],
 )

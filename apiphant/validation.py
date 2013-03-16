@@ -21,7 +21,7 @@ class ApiError(Exception):
 class Invalid(ApiError):
 
     def __init__(self, field_name):
-        super(Invalid, self).__init__(400, u'{field_name} is Invalid'.format(field_name=field_name))
+        super(Invalid, self).__init__(400, '{field_name} is Invalid'.format(field_name=field_name))
 
 #### field
 
@@ -29,7 +29,7 @@ def field(request, field_name, is_required=False, default_value=None, valid_valu
 
     if field_name not in request:
         if is_required:
-            raise ApiError(400, u'{field_name} is Missing'.format(field_name=field_name))
+            raise ApiError(400, '{field_name} is Missing'.format(field_name=field_name))
         return default_value
 
     field_value = request[field_name]
