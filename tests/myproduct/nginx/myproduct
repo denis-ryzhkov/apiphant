@@ -1,0 +1,22 @@
+
+#### api pool
+
+upstream api-pool {
+    server 127.0.0.1:8001;
+    # Add more here: 8002, 8003, etc.
+}
+
+#### http://myproduct
+
+server {
+    server_name myproduct.com myproduct-local.com;
+
+    access_log /opt/myproduct/log/nginx.log;
+    error_log /opt/myproduct/log/nginx-error.log;
+
+    root /opt/myproduct/public;
+
+    location /api {
+        proxy_pass http://api-pool;
+    }
+}

@@ -47,6 +47,15 @@ Try it:
 [test.sh]: https://github.com/denis-ryzhkov/apiphant/blob/master/tests/test.sh
 [test.py]: https://github.com/denis-ryzhkov/apiphant/blob/master/tests/test.py
 
+* Optional full-stack deploy! Supervisor, Nginx, Logrotate, Apt, Pip, etc.
+    * Copy [myproduct template](https://github.com/denis-ryzhkov/apiphant/blob/master/tests).
+    * Replace `myproduct` with your product name in all configs and scripts.
+    * Run root `deploy.sh` and enjoy the show.
+    * This deploy framework is going:
+        * To be extracted to a separate opensource repo.
+        * To get Virtualenv bootstraper.
+        * To move `test.sh` and `test.py` inside `myproduct/api` - not done yet to keep full-stack optional and tests runnable from any directory.
+
 * Validate request fields and raise errors:
 ```
     from apiphant.validation import ApiError, field, Invalid
@@ -102,9 +111,6 @@ to speak one language easily with any client.
     * `version`, `target` and `action` are always required,
     so may be positional parameters,
     improving readability and saving resources in a natural way.
-
-TODO:
-* `nginx` and `supervisor` config examples.
 
 apiphant version 0.1.0  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
