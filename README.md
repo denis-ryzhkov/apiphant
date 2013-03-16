@@ -44,17 +44,16 @@ Try it:
     POST http://127.0.0.1:8888/api/v0/echo/read {"hello": "world"} --> 200 {'ok': True, 'hello': 'world'}
 ```
     * Please see how this shell script [test.sh][] can help to run Python tests in [test.py][].
-[test.sh]: https://github.com/denis-ryzhkov/apiphant/blob/master/tests/test.sh
-[test.py]: https://github.com/denis-ryzhkov/apiphant/blob/master/tests/test.py
+[test.sh]: https://github.com/denis-ryzhkov/apiphant/blob/master/tests/myproduct/api/test.sh
+[test.py]: https://github.com/denis-ryzhkov/apiphant/blob/master/tests/myproduct/api/test.py
 
 * Optional full-stack deploy! Supervisor, Nginx, Logrotate, Apt, Pip, etc.
     * Copy [myproduct template](https://github.com/denis-ryzhkov/apiphant/blob/master/tests).
     * Replace `myproduct` with your product name in all configs and scripts.
     * Run root `deploy.sh` and enjoy the show.
     * This deploy framework is going:
-        * To be extracted to a separate opensource repo.
         * To get Virtualenv bootstraper.
-        * To move `test.sh` and `test.py` inside `myproduct/api` - not done yet to keep full-stack optional and tests runnable from any directory.
+        * To be extracted to a separate opensource repo.
 
 * Validate request fields and raise errors:
 ```
