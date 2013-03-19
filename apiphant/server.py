@@ -77,7 +77,7 @@ def serve(product_path, host, port):
         ))
 
         return [
-            json.dumps(response),
+            response,
         ]
 
     #### app
@@ -110,16 +110,16 @@ def serve(product_path, host, port):
             if not isinstance(response, dict):
                 raise Exception('Response content should be JSON Object') # See README.md.
 
-            return finish_response(start_response, status_by_code[200], response)
+            return finish_response(start_response, status_by_code[200], json.dumps(response))
 
         except ApiError as e: # Expected error, no logging.
             status = status_by_code[e.status_code]
-            return finish_response(start_response, status, dict(error=(e.error or status)))
+            return finish_response(start_response, status, json.dumps(dict(error=(e.error or status))))
 
         except: # Unexpected error, traceback is logged.
             print_exc()
             status = status_by_code[500]
-            return finish_response(start_response, status, dict(error=status)) # Server error details are saved to log and not disclosed to a client.
+            return finish_response(start_response, status, json.dumps(dict(error=status))) # Server error details are saved to log and not disclosed to a client.
 
     #### gevent.serve
 
