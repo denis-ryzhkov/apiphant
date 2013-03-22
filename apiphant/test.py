@@ -23,8 +23,8 @@ def test(target, action, request_json, status_code, response_json, method='POST'
     response = requests.request(method, url, data=request_json)
 
     assert response.status_code == status_code, (response.status_code, status_code, response.text)
-    assert response.json == response_json, (response.text, response_json)
-    # NOTE: response.text is used instead of response.json to easily compare without extra u'...'-s.
+    response.ajson = ajson(response.json())
+    assert response.ajson == response_json, (response.text, response_json)
+    # NOTE: response.text is used instead of response.ajson|json() to easily compare without extra u'...'-s.
 
-    response.ajson = ajson(response.json)
     return response

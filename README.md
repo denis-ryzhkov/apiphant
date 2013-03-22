@@ -61,7 +61,7 @@ Try it:
 
     def read(request):
         id = field(request, 'id', is_required=True, valid_type=int)
-        # More options: default_value, valid_value, valid_length.
+        # More options: default_value, valid_value, valid_length, max_length.
 
         item = get_item(id)
         if not item:
@@ -111,6 +111,6 @@ to speak one language easily with any client.
     so may be positional parameters,
     improving readability and saving resources in a natural way.
 
-apiphant version 0.1.1  
+apiphant version 0.1.2  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
 MIT License, see http://opensource.org/licenses/MIT

@@ -25,7 +25,7 @@ class Invalid(ApiError):
 
 #### field
 
-def field(request, field_name, is_required=False, default_value=None, valid_value=None, valid_type=None, valid_length=None):
+def field(request, field_name, is_required=False, default_value=None, valid_value=None, valid_type=None, valid_length=None, max_length=None):
 
     if field_name not in request:
         if is_required:
@@ -37,7 +37,8 @@ def field(request, field_name, is_required=False, default_value=None, valid_valu
     if (
         valid_value is not None and field_value != valid_value or
         valid_type and not isinstance(field_value, valid_type) or
-        valid_length is not None and len(field_value) != valid_length
+        valid_length is not None and len(field_value) != valid_length or
+        max_length is not None and len(field_value) > max_length
     ):
         raise Invalid(field_name)
 

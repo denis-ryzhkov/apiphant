@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='apiphant',
-    version='0.1.1',
+    version='0.1.2',
     description='Simple Python Web API framework, based on Gevent, JSON, CRUD.',
     long_description='''
 Features:
@@ -64,7 +64,7 @@ Features:
 
     def read(request):
         id = field(request, 'id', is_required=True, valid_type=int)
-        # More options: default_value, valid_value, valid_length.
+        # More options: default_value, valid_value, valid_length, max_length.
 
         item = get_item(id)
         if not item:
@@ -129,6 +129,6 @@ Features:
     install_requires=[
         'adict',
         'gevent',
-        'requests',
+        'requests>=1.1.0', # Because response.json we use became backward-incompatible in response>=1.*: changed from a property to a method.
     ],
 )

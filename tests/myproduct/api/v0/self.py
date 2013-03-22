@@ -40,6 +40,9 @@ def create(request):
     elif test == 'valid_length':
         x = field(request, 'x', is_required=True, valid_length=2)
 
+    elif test == 'max_length':
+        x = field(request, 'x', is_required=True, max_length=2)
+
     #### ok
 
     return {"ok": True, "x": x}

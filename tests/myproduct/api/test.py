@@ -38,6 +38,10 @@ test('self', 'create', {"test": "valid_type", "x": 42}, 200, {"ok": True, "x": 4
 test('self', 'create', {"test": "valid_length", "x": ["X"]}, 400, {"error": "x is Invalid"})
 test('self', 'create', {"test": "valid_length", "x": ["X", "Y"]}, 200, {"ok": True, "x": ["X", "Y"]})
 
+test('self', 'create', {"test": "max_length", "x": "123"}, 400, {"error": "x is Invalid"})
+test('self', 'create', {"test": "max_length", "x": "12"}, 200, {"ok": True, "x": "12"})
+test('self', 'create', {"test": "max_length", "x": "1"}, 200, {"ok": True, "x": "1"})
+
 #### total
 
 print('OK')
