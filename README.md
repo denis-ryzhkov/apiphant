@@ -18,7 +18,7 @@ Try it:
     # from myproduct.api import anything
     def read(request):
         response = request.copy()
-        response.ok = True
+        response.server = 'myproduct'
         return response
     END
 
@@ -28,7 +28,7 @@ Try it:
 
     # POST http://{host}:{port}/api/{version}/{t/a/r/g/e/t}/{action}
     curl --data-binary '{"hello": "world"}' --request POST http://127.0.0.1:8001/api/v0/echo/read
-    {"hello": "world", "ok": true}
+    {"hello": "world", "server": "myproduct"}
 ```
 
 * Automated functional tests in Python:
@@ -37,11 +37,11 @@ Try it:
 
     cat <<END >test.py
     from apiphant.test import test
-    test('echo', 'read', {"hello": "world"}, 200, {"hello": "world", "ok": True})
+    test('echo', 'read', {"hello": "world"}, 200, {"hello": "world", "server": "myproduct"})
     END
 
     python test.py
-    POST http://127.0.0.1:8888/api/v0/echo/read {"hello": "world"} --> 200 {'ok': True, 'hello': 'world'}
+    POST http://127.0.0.1:8888/api/v0/echo/read {"hello": "world"} --> 200 {'hello': 'world', 'server': 'myproduct'}
 ```
     * Please see how this shell script [test.sh][] can help to run Python tests in [test.py][].
 [test.sh]: https://github.com/denis-ryzhkov/apiphant/blob/master/tests/myproduct/api/test.sh
@@ -111,6 +111,6 @@ to speak one language easily with any client.
     so may be positional parameters,
     improving readability and saving resources in a natural way.
 
-apiphant version 0.1.2  
+apiphant version 0.1.3  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
 MIT License, see http://opensource.org/licenses/MIT

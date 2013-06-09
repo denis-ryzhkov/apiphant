@@ -1,4 +1,8 @@
 
+#### global
+
+log_format myproduct '[$time_iso8601] $remote_addr from "$http_referer" for "$request" gets $status in $request_time s.';
+
 #### api pool
 
 upstream api-pool {
@@ -11,7 +15,7 @@ upstream api-pool {
 server {
     server_name myproduct.com myproduct-local.com;
 
-    access_log /opt/myproduct/log/nginx.log;
+    access_log /opt/myproduct/log/nginx.log myproduct;
     error_log /opt/myproduct/log/nginx-error.log;
 
     root /opt/myproduct/public;

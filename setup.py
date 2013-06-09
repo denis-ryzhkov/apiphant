@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='apiphant',
-    version='0.1.2',
+    version='0.1.3',
     description='Simple Python Web API framework, based on Gevent, JSON, CRUD.',
     long_description='''
 Features:
@@ -20,7 +20,7 @@ Features:
     # from myproduct.api import anything
     def read(request):
         response = request.copy()
-        response.ok = True
+        response.server = 'myproduct'
         return response
     END
 
@@ -30,7 +30,7 @@ Features:
 
     # POST http://{host}:{port}/api/{version}/{t/a/r/g/e/t}/{action}
     curl --data-binary '{"hello": "world"}' --request POST http://127.0.0.1:8001/api/v0/echo/read
-    {"hello": "world", "ok": true}
+    {"hello": "world", "server": "myproduct"}
 
 * Automated functional tests in Python::
 
@@ -38,11 +38,11 @@ Features:
 
     cat <<END >test.py
     from apiphant.test import test
-    test('echo', 'read', {"hello": "world"}, 200, {"hello": "world", "ok": True})
+    test('echo', 'read', {"hello": "world"}, 200, {"hello": "world", "server": "myproduct"})
     END
 
     python test.py
-    POST http://127.0.0.1:8888/api/v0/echo/read {"hello": "world"} --> 200 {'ok': True, 'hello': 'world'}
+    POST http://127.0.0.1:8888/api/v0/echo/read {"hello": "world"} --> 200 {'hello': 'world', 'server': 'myproduct'}
 
 * Please see how this shell script
   `test.sh <https://github.com/denis-ryzhkov/apiphant/blob/master/tests/myproduct/api/test.sh>`_

@@ -7,4 +7,5 @@ for PART in api supervisor nginx;
 do
     $PART/deploy.sh;
 done
-curl --data-binary '{"hello": "world"}' --request POST http://myproduct-local.com/api/v0/echo/read
+sleep 2
+./quick-test.sh

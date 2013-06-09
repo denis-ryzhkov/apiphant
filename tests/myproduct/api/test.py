@@ -6,7 +6,7 @@ from apiphant.test import test
 
 #### test echo
 
-test('echo', 'read', {"hello": "world"}, 200, {"hello": "world", "ok": True})
+test('echo', 'read', {"hello": "world"}, 200, {"hello": "world", "server": "myproduct"})
 
 #### test apiphant internals
 

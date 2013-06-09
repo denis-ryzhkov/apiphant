@@ -13,7 +13,7 @@ def serve(product_path, host, port):
     from adict import adict
     from apiphant.validation import ApiError, status_by_code
     import gevent.wsgi
-    import json, os, re, sys
+    import json, logging, os, re, sys
     from traceback import print_exc
 
     #### paths
@@ -117,13 +117,17 @@ def serve(product_path, host, port):
             return finish_response(start_response, status, json.dumps(dict(error=(e.error or status))))
 
         except: # Unexpected error, traceback is logged.
-            print_exc()
+            print_exc() # To sys.stderr.
             status = status_by_code[500]
             return finish_response(start_response, status, json.dumps(dict(error=status))) # Server error details are saved to log and not disclosed to a client.
 
+    #### logging
+
+    logging.basicConfig(level=logging.DEBUG, format='%(levelname)s at %(module)s.%(funcName)s:%(lineno)d [%(asctime)s] %(message)s') # To sys.stderr by default.
+    logging.info('\nApiphant is serving {api_path} at http://{host}:{port}/api\n'.format(**locals()))
+
     #### gevent.serve
 
-    sys.stderr.write('\nApiphant is serving {api_path} at http://{host}:{port}/api\n'.format(**locals()))
     gevent.wsgi.WSGIServer((host, port), app).serve_forever()
 
 #### main

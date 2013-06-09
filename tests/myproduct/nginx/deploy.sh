@@ -4,7 +4,4 @@ grep myproduct-local.com /etc/hosts || echo '127.0.0.1 myproduct-local.com' | su
 sudo apt-get install --yes nginx
 sudo ln -sf /opt/myproduct/nginx/myproduct /etc/nginx/sites-enabled/myproduct
 sudo ln -sf /opt/myproduct/nginx/logrotate/nginx-myproduct /etc/logrotate.d/nginx-myproduct
-if sudo pgrep -l nginx;
-    then sudo nginx -s reload;
-    else sudo service nginx start;
-fi
+/opt/myproduct/nginx/reload.sh

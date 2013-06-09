@@ -9,5 +9,5 @@ def read(request):
     '''Basic echo test from README.md.'''
 
     response = request.copy()
-    response.ok = True
+    response.server = 'myproduct'
     return response
