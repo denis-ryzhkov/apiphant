@@ -2,7 +2,7 @@
 
 echo Writing to server.log and client.log...
 
-SERVER="apiphant ../../myproduct 127.0.0.1:8888"
+SERVER="apiphant .. 127.0.0.1:8888"
 $SERVER >server.log 2>&1 &
 sleep 1
 

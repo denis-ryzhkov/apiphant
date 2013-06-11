@@ -5,7 +5,7 @@ log_format myproduct '[$time_iso8601] $remote_addr from "$http_referer" for "$re
 
 #### api pool
 
-upstream api-pool {
+upstream myproduct-api-pool {
     server 127.0.0.1:8001;
     # Add more here: 8002, 8003, etc.
 }
@@ -21,6 +21,6 @@ server {
     root /opt/myproduct/public;
 
     location /api {
-        proxy_pass http://api-pool;
+        proxy_pass http://myproduct-api-pool;
     }
 }
