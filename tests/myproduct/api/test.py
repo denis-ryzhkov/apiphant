@@ -42,6 +42,11 @@ test('self', 'create', {"test": "max_length", "x": "123"}, 400, {"error": "x is 
 test('self', 'create', {"test": "max_length", "x": "12"}, 200, {"ok": True, "x": "12"})
 test('self', 'create', {"test": "max_length", "x": "1"}, 200, {"ok": True, "x": "1"})
 
+#### apiphant.validation.Invalid
+
+test('self', 'create', {"test": "simple_invalid"}, 400, {"error": "test is Invalid"})
+test('self', 'create', {"test": "extended_invalid"}, 400, {"error": "test is Invalid: extended"})
+
 #### total
 
 print('OK')

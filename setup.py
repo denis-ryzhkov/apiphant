@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='apiphant',
-    version='0.1.4',
+    version='0.1.5',
     description='Simple Python Web API framework, based on Gevent, JSON, CRUD.',
     long_description='''
 Features:
@@ -71,6 +71,8 @@ Features:
             raise Invalid('id')
             # that is a shortcut for:
             raise ApiError(400, 'id is Invalid')
+
+        raise Invalid('id', 'extended') # 'id is Invalid: extended'
 
 * ``version`` value ``v0`` used in the example
   `means <http://semver.org/>`_ API is not public yet, and maybe never will,

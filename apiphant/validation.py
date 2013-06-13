@@ -20,8 +20,8 @@ class ApiError(Exception):
 
 class Invalid(ApiError):
 
-    def __init__(self, field_name):
-        super(Invalid, self).__init__(400, '{field_name} is Invalid'.format(field_name=field_name))
+    def __init__(self, field_name, error=None):
+        super(Invalid, self).__init__(400, '{field_name} is Invalid'.format(field_name=field_name) + ('' if error is None else ': {error}'.format(error=error)))
 
 #### field
 

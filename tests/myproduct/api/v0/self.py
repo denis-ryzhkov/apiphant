@@ -1,6 +1,6 @@
 #### import
 
-from apiphant.validation import field
+from apiphant.validation import field, Invalid
 
 #### create
 
@@ -42,6 +42,14 @@ def create(request):
 
     elif test == 'max_length':
         x = field(request, 'x', is_required=True, max_length=2)
+
+    #### Invalid
+
+    if test == 'simple_invalid':
+        raise Invalid('test')
+
+    elif test == 'extended_invalid':
+        raise Invalid('test', 'extended')
 
     #### ok
 
