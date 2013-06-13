@@ -55,13 +55,13 @@ Try it:
         * To get Virtualenv bootstraper.
         * To be extracted to a separate opensource repo.
 
-* Validate request fields and raise errors:
+* Validate request fields and subfields, raise errors:
 ```
     from apiphant.validation import ApiError, field, Invalid
 
     def read(request):
         id = field(request, 'id', is_required=True, valid_type=int)
-        # More options: default_value, valid_value, valid_length, max_length.
+        # More options: default_value, valid_value, valid_length, max_length, explain.
 
         item = get_item(id)
         if not item:
@@ -69,7 +69,7 @@ Try it:
             # that is a shortcut for:
             raise ApiError(400, 'id is Invalid')
 
-        raise Invalid('id', 'extended') # 'id is Invalid: extended'
+        raise Invalid('id', id) # 'id is Invalid: -1'
 ```
 
 * `version` value `v0` used in the example
@@ -113,6 +113,6 @@ to speak one language easily with any client.
     so may be positional parameters,
     improving readability and saving resources in a natural way.
 
-apiphant version 0.1.5  
+apiphant version 0.1.6  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
 MIT License, see http://opensource.org/licenses/MIT
