@@ -72,9 +72,9 @@ def serve(product_path, host, port):
 
     def finish_response(start_response, status, response):
 
-        start_response(status=status, headers=(
+        start_response(status=status, headers=[
             ('Content-Type', 'application/json'),
-        ))
+        ])
 
         return [
             response,

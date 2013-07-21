@@ -26,23 +26,23 @@ test('self', 'create', None, 200, {"ok": True, "x": None})
 test('self', 'create', {"test": "optional"}, 200, {"ok": True, "x": None})
 test('self', 'create', {"test": "default"}, 200, {"ok": True, "x": "X"})
 
-test('self', 'create', {"test": "required"}, 400, {"error": "x is Missing"})
+test('self', 'create', {"test": "required"}, 400, {"error": {"field": "x", "state": "missing"}})
 test('self', 'create', {"test": "required", "x": "X"}, 200, {"ok": True, "x": "X"})
 
-test('self', 'create', {"test": "valid_value", "x": "Y"}, 400, {"error": "x is Invalid"})
+test('self', 'create', {"test": "valid_value", "x": "Y"}, 400, {"error": {"field": "x", "state": "invalid"}})
 test('self', 'create', {"test": "valid_value", "x": "X"}, 200, {"ok": True, "x": "X"})
 
-test('self', 'create', {"test": "valid_type", "x": "X"}, 400, {"error": "x is Invalid"})
+test('self', 'create', {"test": "valid_type", "x": "X"}, 400, {"error": {"field": "x", "state": "invalid"}})
 test('self', 'create', {"test": "valid_type", "x": 42}, 200, {"ok": True, "x": 42})
 
-test('self', 'create', {"test": "valid_length", "x": ["X"]}, 400, {"error": "x is Invalid"})
+test('self', 'create', {"test": "valid_length", "x": ["X"]}, 400, {"error": {"field": "x", "state": "invalid"}})
 test('self', 'create', {"test": "valid_length", "x": ["X", "Y"]}, 200, {"ok": True, "x": ["X", "Y"]})
 
-test('self', 'create', {"test": "max_length", "x": "123"}, 400, {"error": "x is Invalid"})
+test('self', 'create', {"test": "max_length", "x": "123"}, 400, {"error": {"field": "x", "state": "invalid"}})
 test('self', 'create', {"test": "max_length", "x": "12"}, 200, {"ok": True, "x": "12"})
 test('self', 'create', {"test": "max_length", "x": "1"}, 200, {"ok": True, "x": "1"})
 
-test('self', 'create', {"test": "explain", "x": "X"}, 400, {"error": "x is Invalid: should be integer"})
+test('self', 'create', {"test": "explain", "x": "X"}, 400, {"error": {"field": "x", "state": "invalid", "explain": "should be integer"}})
 
 #### total
 

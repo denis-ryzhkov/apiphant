@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='apiphant',
-    version='0.1.6',
+    version='0.2.0',
     description='Simple Python Web API framework, based on Gevent, JSON, CRUD.',
     long_description='''
 Features:
@@ -70,9 +70,9 @@ Features:
         if not item:
             raise Invalid('id')
             # that is a shortcut for:
-            raise ApiError(400, 'id is Invalid')
+            raise ApiError(400, {"field": "id", "state": "invalid"})
 
-        raise Invalid('id', id) # 'id is Invalid: -1'
+        raise Invalid('id', id) # {"field": "id", "state": "invalid", "explain": -1}
 
 * ``version`` value ``v0`` used in the example
   `means <http://semver.org/>`_ API is not public yet, and maybe never will,

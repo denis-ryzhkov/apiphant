@@ -1,4 +1,8 @@
 
+#### import
+
+from adict import adict
+
 #### status_by_code
 
 status_by_code = {
@@ -18,20 +22,23 @@ class ApiError(Exception):
         self.error = error
 
 class BadRequest(ApiError):
-    def __init__(self, field_name, state, explain=None):
-        super(BadRequest, self).__init__(400, '{field_name} is {state}'.format(field_name=field_name, state=state) + ('' if explain is None else ': {explain}'.format(explain=explain)))
+    def __init__(self, field_name, state, explain=''):
+        error = adict(field=field_name, state=state)
+        if explain:
+            error.explain = explain
+        super(BadRequest, self).__init__(400, error)
 
 class Missing(BadRequest):
-    def __init__(self, field_name, explain=None):
-        super(Missing, self).__init__(field_name, 'Missing', explain)
+    def __init__(self, field_name, explain=''):
+        super(Missing, self).__init__(field_name, 'missing', explain)
 
 class Invalid(BadRequest):
-    def __init__(self, field_name, explain=None):
-        super(Invalid, self).__init__(field_name, 'Invalid', explain)
+    def __init__(self, field_name, explain=''):
+        super(Invalid, self).__init__(field_name, 'invalid', explain)
 
 #### field
 
-def field(request, field_name, is_required=False, default_value=None, valid_value=None, valid_type=None, valid_length=None, max_length=None, explain=None):
+def field(request, field_name, is_required=False, default_value=None, valid_value=None, valid_type=None, valid_length=None, max_length=None, explain=''):
 
     if field_name not in request:
         if is_required:

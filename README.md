@@ -67,9 +67,9 @@ Try it:
         if not item:
             raise Invalid('id')
             # that is a shortcut for:
-            raise ApiError(400, 'id is Invalid')
+            raise ApiError(400, {"field": "id", "state": "invalid"})
 
-        raise Invalid('id', id) # 'id is Invalid: -1'
+        raise Invalid('id', id) # {"field": "id", "state": "invalid", "explain": -1}
 ```
 
 * `version` value `v0` used in the example
@@ -113,6 +113,6 @@ to speak one language easily with any client.
     so may be positional parameters,
     improving readability and saving resources in a natural way.
 
-apiphant version 0.1.6  
+apiphant version 0.2.0  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
 MIT License, see http://opensource.org/licenses/MIT
