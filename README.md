@@ -74,7 +74,7 @@ Try it:
 
 * Background tasks may be scheduled:
 ```
-    cat <<END >myproduct/api/background.py
+    cat <<END >myproduct/api/background.py # Or background/__init__.py importing modules of tasks.
     from apiphant.background import seconds
 
     @seconds(60)
@@ -150,6 +150,6 @@ to speak one language easily with any client.
     so may be positional parameters,
     improving readability and saving resources in a natural way.
 
-apiphant version 0.2.1  
+apiphant version 0.2.2  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
 MIT License, see http://opensource.org/licenses/MIT

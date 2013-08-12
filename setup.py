@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='apiphant',
-    version='0.2.1',
+    version='0.2.2',
     description='Simple Python Web API framework, based on Gevent, JSON, CRUD.',
     long_description='''
 Features:
@@ -76,7 +76,7 @@ Features:
 
 * Background tasks may be scheduled::
 
-    cat <<END >myproduct/api/background.py
+    cat <<END >myproduct/api/background.py # Or background/__init__.py importing modules of tasks.
     from apiphant.background import seconds
 
     @seconds(60)

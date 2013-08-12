@@ -56,12 +56,13 @@ def main():
 
     #### import myproduct.api.background to init tasks[] with @seconds
 
-    product_module = __import__('{product_name}.api.background'.format(product_name=product_name), globals(), locals())
+    product_module_name = '{product_name}.api.background'.format(product_name=product_name)
+    product_module = __import__(product_module_name, globals(), locals())
     on_error = getattr(product_module.api.background, 'on_error', None)
 
     #### loop
 
-    logging.info('\nApiphant is scheduling {api_path}/background.py\n'.format(api_path=api_path))
+    logging.info('\nApiphant is scheduling {product_module_name}\n'.format(product_module_name=product_module_name))
 
     while True:
 
