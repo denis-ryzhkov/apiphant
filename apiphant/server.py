@@ -11,6 +11,7 @@ def serve(product_path, host, port):
     #### import
 
     from adict import adict
+    from apiphant.paths import init_paths
     from apiphant.validation import ApiError, status_by_code
     import gevent.wsgi
     import json, logging, os, re, sys
@@ -18,14 +19,7 @@ def serve(product_path, host, port):
 
     #### paths
 
-    product_path = os.path.abspath(product_path) # /absolutized/path/to/myproduct
-
-    api_path = os.path.join(product_path, 'api') # /absolutized/path/to/myproduct/api
-    if not os.path.isdir(api_path):
-        exit('Dir not found: {api_path}'.format(api_path=api_path))
-
-    product_parent_path, product_name = os.path.split(product_path.rstrip(os.sep)) # /absolutized/path/to, myproduct
-    sys.path.insert(0, product_parent_path) # Now it is possible: from myproduct.api import anything
+    api_path, product_name = init_paths(product_path)
 
     #### routes
 

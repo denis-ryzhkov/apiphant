@@ -72,6 +72,42 @@ Try it:
         raise Invalid('id', id) # {"field": "id", "state": "invalid", "explain": -1}
 ```
 
+* Background tasks may be scheduled:
+```
+    cat <<END >myproduct/api/background.py
+    from apiphant.background import seconds
+
+    @seconds(60)
+    def update_something():
+        pass
+    END
+
+    apiphant-background myproduct
+
+    INFO at background.main:107 [2013-08-12 13:16:52,624] Task update_something: OK.
+    INFO at background.main:107 [2013-08-12 13:17:53,012] Task update_something: OK.
+```
+    * Error tracebacks are logged and may be e.g. emailed:
+```
+    def on_error(error):
+        send_email_message(to=email_config['user'], subject='Error', text=error, **email_config)
+        # See https://pypi.python.org/pypi/send_email_message
+
+    @seconds(60)
+    def update_something():
+        1/0
+
+    apiphant-background myproduct
+
+    ERROR at background.main:92 [2013-08-12 13:22:41,205] Task update_something failed:
+    Traceback (most recent call last):  File "...myproduct/api/background.py", line 18, in update_something
+        1/0
+    ZeroDivisionError: integer division or modulo by zero
+
+    INFO at background.main:104 [2013-08-12 13:22:43,229] on_error: OK.
+    # Email is sent.
+```
+
 * `version` value `v0` used in the example
 [means](http://semver.org/) API is not public yet, and maybe never will,
 so is expected to be changed without notification.
@@ -113,6 +149,6 @@ to speak one language easily with any client.
     so may be positional parameters,
     improving readability and saving resources in a natural way.
 
-apiphant version 0.2.0  
+apiphant version 0.2.1  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
 MIT License, see http://opensource.org/licenses/MIT
