@@ -88,6 +88,7 @@ Try it:
     INFO at background.main:107 [2013-08-12 13:17:53,012] Task update_something: OK.
 ```
     * Error tracebacks are logged and may be e.g. emailed:
+
 ```
     def on_error(error):
         send_email_message(to=email_config['user'], subject='Error', text=error, **email_config)
@@ -105,7 +106,7 @@ Try it:
     ZeroDivisionError: integer division or modulo by zero
 
     INFO at background.main:104 [2013-08-12 13:22:43,229] on_error: OK.
-    # Email is sent.
+    (Email is sent)
 ```
 
 * `version` value `v0` used in the example
