@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='apiphant',
-    version='0.2.2',
+    version='0.2.3',
     description='Simple Python Web API framework, based on Gevent, JSON, CRUD.',
     long_description='''
 Features:
