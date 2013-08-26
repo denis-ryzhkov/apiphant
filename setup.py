@@ -29,7 +29,7 @@ Features:
     apiphant myproduct 127.0.0.1:8001
 
     # POST http://{host}:{port}/api/{version}/{t/a/r/g/e/t}/{action}
-    curl --data-binary '{"hello": "world"}' --request POST http://127.0.0.1:8001/api/v0/echo/read
+    curl -X POST http://127.0.0.1:8001/api/v0/echo/read -d '{"hello": "world"}'
     {"hello": "world", "server": "myproduct"}
 
 * Automated functional tests in Python::
