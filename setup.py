@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='apiphant',
-    version='0.2.3',
+    version='0.2.4',
     description='Simple Python Web API framework, based on Gevent, JSON, CRUD.',
     long_description='''
 Features:
@@ -148,6 +148,19 @@ Features:
     * ``version``, ``target`` and ``action`` are always required,
       so may be positional parameters,
       improving readability and saving resources in a natural way.
+
+* The purity of the concept above should not stand in your way.
+If you need e.g. to upload a file as "multipart/form-data",
+you may use raw wsgi environ::
+
+    sudo pip install multipart
+
+    from multipart import parse_form_data
+    from apiphant.server import raw_environ
+
+    @raw_environ
+    def create(environ):
+        forms, files = parse_form_data(environ)
 
 ''',
     url='https://github.com/denis-ryzhkov/apiphant',

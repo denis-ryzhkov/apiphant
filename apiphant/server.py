@@ -1,4 +1,10 @@
 
+#### raw_environ
+
+def raw_environ(action):
+    action.raw_environ = True
+    return action
+
 #### serve
 
 def serve(product_path, host, port):
@@ -80,23 +86,37 @@ def serve(product_path, host, port):
 
         try:
 
-            if environ['REQUEST_METHOD'] != 'POST': # See README.md.
-                raise ApiError(501)
-
             action = routes.get(environ['PATH_INFO'])
             if not action:
                 raise ApiError(404)
 
-            request = environ['wsgi.input'].read()
-            try:
-                request = json.loads(request) if request else {}
-                if not isinstance(request, dict):
-                    raise ValueError
-            except ValueError:
-                raise ApiError(400, 'Request content should be JSON Object') # See README.md.
-            request = adict(request)
+            #### raw_environ
 
-            response = action(request)
+            if hasattr(action, 'raw_environ'):
+                response = action(environ)
+
+            #### normal request
+
+            else:
+
+                if environ['REQUEST_METHOD'] != 'POST': # See README.md.
+                    raise ApiError(501)
+
+                request = environ['wsgi.input'].read()
+
+                try:
+                    request = json.loads(request) if request else {}
+                    if not isinstance(request, dict):
+                        raise ValueError
+
+                except ValueError:
+                    raise ApiError(400, 'Request content should be JSON Object') # See README.md.
+
+                request = adict(request)
+
+                response = action(request)
+
+            #### normal response
 
             if response is None:
                 response = {}
@@ -106,11 +126,15 @@ def serve(product_path, host, port):
 
             return finish_response(start_response, status_by_code[200], json.dumps(response))
 
-        except ApiError as e: # Expected error, no logging.
+        #### Expected error, no logging.
+
+        except ApiError as e:
             status = status_by_code[e.status_code]
             return finish_response(start_response, status, json.dumps(dict(error=(e.error or status))))
 
-        except: # Unexpected error, traceback is logged.
+        #### Unexpected error, traceback is logged.
+
+        except:
             print_exc() # To sys.stderr.
             status = status_by_code[500]
             return finish_response(start_response, status, json.dumps(dict(error=status))) # Server error details are saved to log and not disclosed to a client.

@@ -150,6 +150,20 @@ to speak one language easily with any client.
     so may be positional parameters,
     improving readability and saving resources in a natural way.
 
-apiphant version 0.2.3  
+* The purity of the concept above should not stand in your way.
+If you need e.g. to upload a file as "multipart/form-data",
+you may use raw wsgi environ:
+```
+    sudo pip install multipart
+
+    from multipart import parse_form_data
+    from apiphant.server import raw_environ
+
+    @raw_environ
+    def create(environ):
+        forms, files = parse_form_data(environ)
+```
+
+apiphant version 0.2.4  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
 MIT License, see http://opensource.org/licenses/MIT
