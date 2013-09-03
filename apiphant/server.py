@@ -5,6 +5,12 @@ def raw_environ(action):
     action.raw_environ = True
     return action
 
+#### raw_response
+
+def raw_response(action):
+    action.raw_response = True
+    return action
+
 #### serve
 
 def serve(product_path, host, port):
@@ -68,32 +74,27 @@ def serve(product_path, host, port):
 
     routes = routes()
 
-    #### finish_response
-
-    def finish_response(start_response, status, response):
-
-        start_response(status=status, headers=[
-            ('Content-Type', 'application/json'),
-        ])
-
-        return [
-            response,
-        ]
-
     #### app
 
     def app(environ, start_response):
 
+        status = response = raw_response = ''
         try:
 
             action = routes.get(environ['PATH_INFO'])
             if not action:
                 raise ApiError(404)
 
-            #### raw_environ
+            raw_response = hasattr(action, 'raw_response')
+
+            #### raw environ
 
             if hasattr(action, 'raw_environ'):
-                response = action(environ)
+
+                if raw_response:
+                    response = action(environ, start_response)
+                else:
+                    response = action(environ)
 
             #### normal request
 
@@ -114,30 +115,53 @@ def serve(product_path, host, port):
 
                 request = adict(request)
 
-                response = action(request)
+                if raw_response:
+                    response = action(request, start_response)
+                else:
+                    response = action(request)
 
             #### normal response
 
-            if response is None:
-                response = {}
+            if not raw_response:
 
-            if not isinstance(response, dict):
-                raise Exception('Response content should be JSON Object') # See README.md.
+                if response is None:
+                    response = {}
 
-            return finish_response(start_response, status_by_code[200], json.dumps(response))
+                if not isinstance(response, dict):
+                    raise Exception('Response content should be JSON Object') # See README.md.
+
+                status = status_by_code[200]
 
         #### Expected error, no logging.
 
         except ApiError as e:
             status = status_by_code[e.status_code]
-            return finish_response(start_response, status, json.dumps(dict(error=(e.error or status))))
+            response = dict(error=(e.error or status))
 
         #### Unexpected error, traceback is logged.
 
         except:
             print_exc() # To sys.stderr.
             status = status_by_code[500]
-            return finish_response(start_response, status, json.dumps(dict(error=status))) # Server error details are saved to log and not disclosed to a client.
+            response = dict(error=status) # Server error details are saved to log and not disclosed to a client.
+
+        #### Response.
+
+        finally:
+
+            #### raw response
+
+            if raw_response:
+                return response
+
+            #### normal response
+
+            start_response(status, headers=[
+                ('Content-Type', 'application/json'),
+            ])
+            return [
+                json.dumps(response),
+            ]
 
     #### logging
 

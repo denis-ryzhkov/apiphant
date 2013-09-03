@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='apiphant',
-    version='0.2.4',
+    version='0.2.5',
     description='Simple Python Web API framework, based on Gevent, JSON, CRUD.',
     long_description='''
 Features:
@@ -161,6 +161,22 @@ you may use raw wsgi environ::
     @raw_environ
     def create(environ):
         forms, files = parse_form_data(environ)
+
+* And if you need to return e.g. not "application/json",
+you may use raw wsgi response, with or without ``@raw_environ``::
+
+    from apiphant.server import raw_environ, raw_response
+
+    @raw_environ
+    @raw_response
+    def create(environ, start_response):
+        try:
+            ...
+        except:
+            ...
+        finally:
+            start_response(status, headers)
+            return [response]
 
 ''',
     url='https://github.com/denis-ryzhkov/apiphant',

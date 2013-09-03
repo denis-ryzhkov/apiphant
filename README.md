@@ -164,6 +164,23 @@ you may use raw wsgi environ:
         forms, files = parse_form_data(environ)
 ```
 
-apiphant version 0.2.4  
+* And if you need to return e.g. not "application/json",
+you may use raw wsgi response, with or without `@raw_environ`:
+```
+    from apiphant.server import raw_environ, raw_response
+
+    @raw_environ
+    @raw_response
+    def create(environ, start_response):
+        try:
+            ...
+        except:
+            ...
+        finally:
+            start_response(status, headers)
+            return [response]
+```
+
+apiphant version 0.2.5  
 Copyright (C) 2013 by Denis Ryzhkov <denisr@denisr.com>  
 MIT License, see http://opensource.org/licenses/MIT
